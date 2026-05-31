@@ -4,7 +4,7 @@
 #include "include/Sastavka.h"
 #include "include/Recepta.h"
 #include "include/Menu.h"
-#include "include/GotvarskаKniga.h"
+#include "include/GotvarskaKniga.h"
 
 static void sep(const std::string& zaglavie) {
     std::cout << "\n############################################\n";
