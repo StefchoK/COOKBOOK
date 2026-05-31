@@ -23,7 +23,6 @@ void Recepta::dodadiStapka(const std::string& stapka) {
     if (!stapka.empty()) stapki.push_back(stapka);
 }
 
-// ── Функц. 6 ────────────────────────────────────────────────
 void Recepta::dodadiOcenka(const Ocenka& o) {
     ocenki.push_back(o);
 }
@@ -42,7 +41,6 @@ void Recepta::pokaziOcenki() const {
     for (const auto& o : ocenki) o.pokazi();
 }
 
-// ── Функц. 7 ────────────────────────────────────────────────
 HranitelnаInfo Recepta::getHranitelnаInfo() const {
     HranitelnаInfo info;
     for (const auto& [s, kol] : sastavki) {
@@ -57,7 +55,6 @@ HranitelnаInfo Recepta::getHranitelnаInfo() const {
     return info;
 }
 
-// ── Функц. 10 ───────────────────────────────────────────────
 Recepta* Recepta::mashtabirane(int novPortcii) const {
     if (novPortcii <= 0) {
         std::cerr << "[!] Nevaliден broi portcii za mashtabirane!\n";
@@ -70,7 +67,6 @@ Recepta* Recepta::mashtabirane(int novPortcii) const {
     return nova;
 }
 
-// ── Изход ───────────────────────────────────────────────────
 void Recepta::pokaziPълно() const {
     std::cout << "\n========================================\n";
     std::cout << "  " << ime << "\n";
