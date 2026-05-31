@@ -1,23 +1,23 @@
 #include "../include/Sastavka.h"
 #include <iostream>
 
-// ============================================================
-// ProstaSastavka
-// ============================================================
 void ProstaSastavka::opisanie() const {
-    std::cout << "  [Проста] " << ime
+    std::cout << "  [Proста] " << ime
               << " (" << kategoriq << ")"
-              << " | единица: " << edinica << "\n";
+              << " | " << kalorii << " kcal/100g\n";
 }
 
-// ============================================================
-// SlozhnaSastavka
-// ============================================================
 void SlozhnaSastavka::opisanie() const {
-    std::cout << "  [Сложна] " << ime
-              << " — съставена от " << podSastavki.size() << " под-съставки:\n";
-    for (const auto& [s, kol] : podSastavki) {
-        std::cout << "      -> " << s->getIme()
+    std::cout << "  [Slozhna] " << ime
+              << " — sastavena ot " << podSastavki.size() << " pod-sastavki:\n";
+    for (const auto& [s, kol] : podSastavki)
+        std::cout << "    -> " << s->getIme()
                   << ": " << kol << " " << s->getEdinica() << "\n";
-    }
+}
+
+double SlozhnaSastavka::getKalorii() const {
+    double total = 0;
+    for (const auto& [s, kol] : podSastavki)
+        total += s->getKalorii() * kol / 100.0;
+    return total;
 }
