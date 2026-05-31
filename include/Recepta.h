@@ -2,41 +2,46 @@
 #include <string>
 #include <vector>
 #include "Sastavka.h"
+#include "Ocenka.h"
 
-// ============================================================
-// Централен клас — една рецепта
-// Функционалност 1: Добавяне на рецепта
-// ============================================================
+struct HranitelnаInfo {
+    double kalorii      = 0;
+    double proteini     = 0;
+    double mazhnini     = 0;
+    double vyglekhidrati = 0;
+};
+
 class Recepta {
 private:
     std::string ime;
-    std::string kategoriq;  // "закуска", "основно", "десерт"...
+    std::string kategoriq;
     int portcii;
-    std::vector<std::pair<Sastavka*, double>> sastavki; // (съставка, количество)
-    std::vector<std::string> stapki;                    // стъпки на приготвяне
+    std::vector<std::pair<Sastavka*, double>> sastavki;
+    std::vector<std::string> stapki;
+    std::vector<Ocenka> ocenki;     
 
 public:
     Recepta(const std::string& ime,
             const std::string& kategoriq,
             int portcii);
 
-    // Getters
     std::string getIme()       const { return ime; }
     std::string getKategoriq() const { return kategoriq; }
     int         getPortcii()   const { return portcii; }
+    const std::vector<std::pair<Sastavka*, double>>& getSastavki() const { return sastavki; }
+    const std::vector<std::string>& getStapki() const { return stapki; }
 
-    const std::vector<std::pair<Sastavka*, double>>& getSastavki() const {
-        return sastavki;
-    }
-    const std::vector<std::string>& getStapki() const {
-        return stapki;
-    }
-
-    // Функционалност 1 — добавяне на съставка и стъпка
     void dodadiSastavka(Sastavka* s, double kolichestvo);
     void dodadiStapka(const std::string& stapka);
 
-    // Изход
-    void pokaziPълно()  const;   // пълна рецепта
-    void pokaziKratko() const;   // един ред (за списъци)
+    void dodadiOcenka(const Ocenka& o);
+    double getSrednaOcenka() const;
+    void pokaziOcenki() const;
+
+    HranitelnаInfo getHranitelnаInfo() const;
+
+    Recepta* mashtabirane(int novPortcii) const;
+
+    void pokaziPълно()  const;
+    void pokaziKratko() const;
 };
