@@ -2,169 +2,201 @@
 #include <iomanip>
 #include <string>
 #include "include/Sastavka.h"
+#include "include/Ocenka.h"
 #include "include/Recepta.h"
 #include "include/Menu.h"
-#include "include/GotvarskaKniga.h"
+#include "COOKBOOK/include/GotvarskaKniga.h"
+#include "include/PotrebitelskiProfil.h"
 
-static void sep(const std::string& zaglavie) {
+static void sep(const std::string& s) {
     std::cout << "\n############################################\n";
-    std::cout << "#  " << zaglavie << "\n";
+    std::cout << "#  " << s << "\n";
     std::cout << "############################################\n";
 }
 
 int main() {
     std::cout << "================================================\n";
-    std::cout << "  ГОТВАРСКА КНИГА  —  Стефан Янакиев, 10Б №25\n";
+    std::cout << "  GOTВARSKA KNIGA  —  Stefan Yanakiev, 10B #25\n";
     std::cout << "================================================\n";
 
-    // --------------------------------------------------------
-    // Създаваме съставки (ProstaSastavka и SlozhnaSastavka)
-    // --------------------------------------------------------
-    auto* brasno  = new ProstaSastavka("Брашно",  "г",  "зърнени");
-    auto* yaytsa  = new ProstaSastavka("Яйца",    "бр", "млечни");
-    auto* mlyako  = new ProstaSastavka("Мляко",   "мл", "млечни");
-    auto* zahar   = new ProstaSastavka("Захар",   "г",  "подправки");
-    auto* olio    = new ProstaSastavka("Олио",    "мл", "мазнини");
-    auto* domati  = new ProstaSastavka("Домати",  "г",  "зеленчуци");
-    auto* kaima   = new ProstaSastavka("Кайма",   "г",  "месо");
-    auto* orizh   = new ProstaSastavka("Ориз",    "г",  "зърнени");
-    auto* sirene  = new ProstaSastavka("Сирене",  "г",  "млечни");
-    auto* spinat  = new ProstaSastavka("Спанак",  "г",  "зеленчуци");
-    auto* kartof  = new ProstaSastavka("Картофи", "г",  "зеленчуци");
+    // ── Съставки ────────────────────────────────────────────
+    auto* brasno  = new ProstaSastavka("Brasno",  "g",  "zarneni",    364, 10,  1, 76);
+    auto* yaytsa  = new ProstaSastavka("Yaytsa",  "br", "mlachni",    155, 13, 11,  1);
+    auto* mlyako  = new ProstaSastavka("Mlyako",  "ml", "mlachni",     42,  3,  1,  5);
+    auto* zahar   = new ProstaSastavka("Zahar",   "g",  "podpravki",  387,  0,  0,100);
+    auto* olio    = new ProstaSastavka("Olio",    "ml", "mazhnini",   884,  0,100,  0);
+    auto* domati  = new ProstaSastavka("Domati",  "g",  "zelenchuti",  18,  1,  0,  4);
+    auto* kaima   = new ProstaSastavka("Kaima",   "g",  "meso",       250, 17, 20,  0);
+    auto* orizh   = new ProstaSastavka("Oriz",    "g",  "zarneni",    360,  7,  1, 78);
+    auto* sirene  = new ProstaSastavka("Sirene",  "g",  "mlachni",    260, 14, 22,  2);
+    auto* spinat  = new ProstaSastavka("Spinak",  "g",  "zelenchuti",  23,  3,  0,  4);
+    auto* kartof  = new ProstaSastavka("Kartof",  "g",  "zelenchuti",  77,  2,  0, 17);
 
-    // Сложна съставка: Доматен сос = домати + олио
-    auto* domatSos = new SlozhnaSastavka("Доматен сос", "г", "сосове");
+    auto* domatSos = new SlozhnaSastavka("Domaten sos", "g", "sosove");
     domatSos->dodadiPodSastavka(domati, 200);
-    domatSos->dodadiPodSastavka(olio,   20);
+    domatSos->dodadiPodSastavka(olio,    20);
 
-    std::cout << "\nСъздадени съставки:\n";
-    brasno->opisanie();
-    domatSos->opisanie();
-
-    // --------------------------------------------------------
-    // ФУНКЦИОНАЛНОСТ 1 — Добавяне на рецепти
-    // --------------------------------------------------------
-    sep("ФУНКЦ. 1 — Добавяне на рецепта");
-
-    auto* palachinki = new Recepta("Палачинки", "закуска", 4);
+    // ── Рецепти ─────────────────────────────────────────────
+    auto* palachinki = new Recepta("Palachinki", "zakuska", 4);
     palachinki->dodadiSastavka(brasno, 200);
-    palachinki->dodadiSastavka(yaytsa, 2);
+    palachinki->dodadiSastavka(yaytsa,   2);
     palachinki->dodadiSastavka(mlyako, 300);
-    palachinki->dodadiSastavka(zahar,  30);
-    palachinki->dodadiSastavka(olio,   20);
-    palachinki->dodadiStapka("Смесете брашно, яйца и мляко до гладка смес.");
-    palachinki->dodadiStapka("Добавете захарта и олиото, разбъркайте.");
-    palachinki->dodadiStapka("Пържете на умерен огън от двете страни.");
+    palachinki->dodadiSastavka(zahar,   30);
+    palachinki->dodadiSastavka(olio,    20);
+    palachinki->dodadiStapka("Smesete brasnoto, yaytsa i mlyakoto.");
+    palachinki->dodadiStapka("Dobavete zaharta i olioto.");
+    palachinki->dodadiStapka("Parzhhete ot dvete strani.");
 
-    auto* boloneze = new Recepta("Спагети Болонезе", "основно", 4);
+    auto* boloneze = new Recepta("Spageti Boloneze", "osnovno", 4);
     boloneze->dodadiSastavka(kaima,    400);
     boloneze->dodadiSastavka(domatSos, 300);
     boloneze->dodadiSastavka(orizh,     50);
-    boloneze->dodadiStapka("Задушете каймата на тиган.");
-    boloneze->dodadiStapka("Добавете доматения сос, ври 20 мин.");
-    boloneze->dodadiStapka("Сервирайте върху сварения ориз.");
+    boloneze->dodadiStapka("Zadushete kaimata na tigan.");
+    boloneze->dodadiStapka("Dobavete domatenia sos, vri 20 min.");
+    boloneze->dodadiStapka("Servirajte varhu oriz.");
 
-    auto* banica = new Recepta("Баница", "закуска", 8);
+    auto* banica = new Recepta("Banica", "zakuska", 8);
     banica->dodadiSastavka(sirene, 300);
     banica->dodadiSastavka(yaytsa,   3);
     banica->dodadiSastavka(brasno, 400);
     banica->dodadiSastavka(olio,    50);
-    banica->dodadiStapka("Замесете тесто от брашно, яйца и олио.");
-    banica->dodadiStapka("Наредете на редове тесто и плънка от сирене.");
-    banica->dodadiStapka("Печете на 200°C 35 минути.");
+    banica->dodadiStapka("Zameste testo.");
+    banica->dodadiStapka("Naredete na redove testo i planka.");
+    banica->dodadiStapka("Pechete 200C / 35 min.");
 
-    auto* salata = new Recepta("Спаначена салата", "салата", 2);
+    auto* salata = new Recepta("Spanachena salata", "salata", 2);
     salata->dodadiSastavka(spinat, 150);
     salata->dodadiSastavka(domati, 100);
     salata->dodadiSastavka(olio,    10);
-    salata->dodadiStapka("Измийте спанака и наредете в купа.");
-    salata->dodadiStapka("Нарежете доматите, добавете олио.");
+    salata->dodadiStapka("Izmijte spinaka.");
+    salata->dodadiStapka("Narezhete domatite, dobavete olio.");
 
-    auto* pechKartof = new Recepta("Печени картофи", "гарнитура", 4);
-    pechKartof->dodadiSastavka(kartof, 600);
-    pechKartof->dodadiSastavka(olio,    30);
-    pechKartof->dodadiStapka("Нарежете картофите на резени.");
-    pechKartof->dodadiStapka("Наредете в тава с олио, печете 200°C / 40 мин.");
+    auto* kartofeni = new Recepta("Pecheni kartofeni", "garnitura", 4);
+    kartofeni->dodadiSastavka(kartof, 600);
+    kartofeni->dodadiSastavka(olio,    30);
+    kartofeni->dodadiStapka("Narezhete kartofite.");
+    kartofeni->dodadiStapka("Pechete 200C / 40 min.");
 
-    // Добавяме всичко в книгата
+    // ── GotvarskаKniga ──────────────────────────────────────
     GotvarskаKniga kniga;
-    kniga.dodadiSastavka(brasno);   kniga.dodadiSastavka(yaytsa);
-    kniga.dodadiSastavka(mlyako);   kniga.dodadiSastavka(zahar);
-    kniga.dodadiSastavka(olio);     kniga.dodadiSastavka(domati);
-    kniga.dodadiSastavka(kaima);    kniga.dodadiSastavka(orizh);
-    kniga.dodadiSastavka(sirene);   kniga.dodadiSastavka(spinat);
-    kniga.dodadiSastavka(kartof);   kniga.dodadiSastavka(domatSos);
-
+    kniga.dodadiSastavka(brasno);  kniga.dodadiSastavka(yaytsa);
+    kniga.dodadiSastavka(mlyako);  kniga.dodadiSastavka(zahar);
+    kniga.dodadiSastavka(olio);    kniga.dodadiSastavka(domati);
+    kniga.dodadiSastavka(kaima);   kniga.dodadiSastavka(orizh);
+    kniga.dodadiSastavka(sirene);  kniga.dodadiSastavka(spinat);
+    kniga.dodadiSastavka(kartof);  kniga.dodadiSastavka(domatSos);
     kniga.dodadiRecepta(palachinki);
     kniga.dodadiRecepta(boloneze);
     kniga.dodadiRecepta(banica);
     kniga.dodadiRecepta(salata);
-    kniga.dodadiRecepta(pechKartof);
+    kniga.dodadiRecepta(kartofeni);
 
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 1 — Dobavqne na recepta");
     kniga.pokaziVsichki();
 
-    // Показваме пълна рецепта
-    palachinki->pokaziPълно();
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 2 — Tarsene");
+    std::cout << "Tarsene po 'Banica':\n";
+    for (auto* r : kniga.tarsi("Banica"))       r->pokaziKratko();
+    std::cout << "\nTarsene po sastavka 'Domati':\n";
+    for (auto* r : kniga.tarsi("Domati"))       r->pokaziKratko();
+    std::cout << "\nTarsene po kategoriq 'zakuska':\n";
+    for (auto* r : kniga.tarsiPoKategoriq("zakuska")) r->pokaziKratko();
 
-    // Демонстрация на невалидно добавяне (валидация)
-    std::cout << "--- Тест на валидация ---\n";
-    Recepta testR("Тест", "десерт", -5); // невалиден брой порции
-    testR.dodadiSastavka(nullptr, 100);  // nullptr съставка
-    testR.dodadiSastavka(brasno,  -50);  // отрицателно количество
-
-    // --------------------------------------------------------
-    // ФУНКЦИОНАЛНОСТ 2 — Търсене на рецепти
-    // --------------------------------------------------------
-    sep("ФУНКЦ. 2 — Търсене на рецепти");
-
-    // по ключова дума в ИМЕТО
-    std::cout << "Търсене по \"Баница\":\n";
-    for (auto* r : kniga.tarsi("Баница"))
-        r->pokaziKratko();
-
-    // по ключова дума в СЪСТАВКИТЕ
-    std::cout << "\nТърсене по съставка \"Домати\":\n";
-    for (auto* r : kniga.tarsi("Домати"))
-        r->pokaziKratko();
-
-    // по КАТЕГОРИЯ
-    std::cout << "\nТърсене по категория \"закуска\":\n";
-    for (auto* r : kniga.tarsiPoKategoriq("закуска"))
-        r->pokaziKratko();
-
-    // търсене без резултат
-    std::cout << "\nТърсене по \"Шоколад\" (очакваме 0 резултата):\n";
-    auto res = kniga.tarsi("Шоколад");
-    if (res.empty()) std::cout << "  (няма намерени рецепти)\n";
-
-    // --------------------------------------------------------
-    // ФУНКЦИОНАЛНОСТ 3 — Планиране на меню
-    // --------------------------------------------------------
-    sep("ФУНКЦ. 3 — Планиране на меню");
-
-    std::cout << "\n--- Седмично меню ---\n";
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 3 — Planirane na meniu");
     SedmichnoMenu sedmichno;
     sedmichno.generirai(kniga.getRecepti());
     sedmichno.pokazi();
 
-    std::cout << "\n--- Диетично меню (макс. 3 съставки) ---\n";
     DietichnoMenu dietichno(3);
     dietichno.generirai(kniga.getRecepti());
     dietichno.pokazi();
 
-    // --------------------------------------------------------
-    // ФУНКЦИОНАЛНОСТ 4 — Пазарски списък
-    // --------------------------------------------------------
-    sep("ФУНКЦ. 4 — Пазарски списък от седмичното меню");
-
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 4 — Pazarski spisak");
     auto spisak = kniga.generiraiPazarskiSpisak(&sedmichno);
-    std::cout << "Трябва да купите (" << spisak.size() << " артикула):\n";
-    for (const auto& red : spisak)
-        std::cout << "  " << red << "\n";
+    std::cout << "Tryabva da kupite (" << spisak.size() << " artikula):\n";
+    for (const auto& red : spisak) std::cout << "  " << red << "\n";
+
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 5 — Upravlenie na sastavki");
+    std::cout << "Opisanie na sastavkite:\n";
+    for (const auto* s : kniga.getSastavki()) s->opisanie();
+
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 6 — Ocenqvane na recepti");
+    palachinki->dodadiOcenka(Ocenka(5, "Strahotni!", "Maria"));
+    palachinki->dodadiOcenka(Ocenka(4, "Mnogo dobri", "Ivan"));
+    palachinki->dodadiOcenka(Ocenka(5, "Perfektni!", "Petq"));
+    boloneze->dodadiOcenka(Ocenka(4, "Vkusno!", "Todor"));
+    boloneze->dodadiOcenka(Ocenka(3, "Dobre", "Ana"));
+    banica->dodadiOcenka(Ocenka(5, "Kato domashna!", "Baba Mara"));
+
+    std::cout << "Ocenki za Palachinki:\n";
+    palachinki->pokaziOcenki();
+    std::cout << "\nOcenki za Boloneze:\n";
+    boloneze->pokaziOcenki();
+
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 7 — Hranitelna informaciq");
+    for (const auto* r : kniga.getRecepti()) {
+        auto info = r->getHranitelnаInfo();
+        std::cout << "  " << r->getIme() << ": "
+                  << std::fixed << std::setprecision(0)
+                  << info.kalorii << " kcal | "
+                  << info.proteini << "g prot | "
+                  << info.mazhnini << "g mazh | "
+                  << info.vyglekhidrati << "g vagl\n";
+    }
+    std::cout << "\nPodrobno za Palachinki:\n";
+    palachinki->pokaziPълно();
+
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 8 & 9 — Potrebitelski profil + Lyubimi");
+    PotrebitelskiProfil stefan("Stefan", "nabor na masa");
+    stefan.dodadiAlergiq("Sirene");
+    stefan.dodadiPredpochitanie("meso");
+    stefan.pokaziProfil();
+
+    stefan.zapaziBeljazan(palachinki);
+    stefan.zapaziBeljazan(boloneze);
+    stefan.zapaziBeljazan(palachinki); // vtori opyt — ne se dobavq
+
+    stefan.pokaziLyubimi();
+
+    std::cout << "\nProverka za alergii:\n";
+    for (const auto* r : kniga.getRecepti()) {
+        bool ok = true;
+        for (const auto& [s, _] : r->getSastavki())
+            if (stefan.imaAlergiq(s->getIme())) {
+                std::cout << "  [!] " << r->getIme()
+                          << " — sodarzha alergent: " << s->getIme() << "\n";
+                ok = false;
+            }
+        if (ok) std::cout << "  [OK] " << r->getIme() << "\n";
+    }
+
+    // ────────────────────────────────────────────────────────
+    sep("FUNK. 10 — Mashtabirane na recepta");
+    std::cout << "Originalna (4 portcii):\n";
+    for (const auto& [s, kol] : palachinki->getSastavki())
+        std::cout << "  " << s->getIme() << ": "
+                  << std::fixed << std::setprecision(0)
+                  << kol << " " << s->getEdinica() << "\n";
+
+    Recepta* p10 = palachinki->mashtabirane(10);
+    std::cout << "\nMashtabirani (10 portcii):\n";
+    for (const auto& [s, kol] : p10->getSastavki())
+        std::cout << "  " << s->getIme() << ": "
+                  << std::fixed << std::setprecision(0)
+                  << kol << " " << s->getEdinica() << "\n";
+    delete p10;
 
     std::cout << "\n================================================\n";
-    std::cout << "  Всички 4 функционалности работят!\n";
+    std::cout << "  Vsichki 10 funkcionalnosti demonstrirani!\n";
     std::cout << "================================================\n\n";
 
-    return 0; // GotvarskаKniga::~GotvarskаKniga() освобождава паметта
+    return 0;
 }
