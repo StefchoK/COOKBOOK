@@ -1,4 +1,4 @@
-#include "../include/Sastavka.h"
+#include "include/Sastavka.h"
 #include <iostream>
 
 void ProstaSastavka::opisanie() const {

@@ -5,7 +5,7 @@
 #include "include/Ocenka.h"
 #include "include/Recepta.h"
 #include "include/Menu.h"
-#include "COOKBOOK/include/GotvarskaKniga.h"
+#include "include/GotvarskaKniga.h"
 #include "include/PotrebitelskiProfil.h"
 
 static void sep(const std::string& s) {
